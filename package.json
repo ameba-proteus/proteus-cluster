@@ -1,0 +1,23 @@
+{
+	"name": "proteus-configurator",
+	"version": "0.0.1",
+	"private": true,
+	"scripts": {
+		"start": "node app"
+	},
+	"homepage": "https://github.com/ameba-proteus/proteus-cluster",
+	"dependencies": {
+		"express": "3.x.x",
+		"express-validator": "*",
+		"jade": "*",
+		"optimist": "*",
+		"uglify-js": "*",
+		"stylus": "*",
+		"commander": "*",
+		"winston": "*",
+		"st": "*"
+	},
+	"devDependencies": {
+		"mocha": "*"
+	}
+}
