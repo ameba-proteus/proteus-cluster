@@ -7,15 +7,7 @@
 	},
 	"homepage": "https://github.com/ameba-proteus/proteus-cluster",
 	"dependencies": {
-		"express": "3.x.x",
-		"express-validator": "*",
-		"jade": "*",
-		"optimist": "*",
-		"uglify-js": "*",
-		"stylus": "*",
-		"commander": "*",
-		"winston": "*",
-		"st": "*"
+		"proteus-logger": "git://github.com/ameba-proteus/proteus-logger.git#master"
 	},
 	"devDependencies": {
 		"mocha": "*"
