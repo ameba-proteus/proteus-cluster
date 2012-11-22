@@ -1,15 +1,23 @@
 {
-	"name": "proteus-configurator",
+	"name": "proteus-cluster",
 	"version": "0.0.1",
-	"private": true,
 	"scripts": {
-		"start": "node app"
+		"start": "node app",
+		"test": "find test -type f -name 'test*.js' -print | xargs ./node_modules/.bin/mocha --reporter tap"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/ameba-proteus/proteus-cluster.git"
+	},
+	"publishConfig": {
+		"registry": "http://npm.pecolodge.com"
 	},
 	"homepage": "https://github.com/ameba-proteus/proteus-cluster",
 	"dependencies": {
 		"proteus-logger": "git://github.com/ameba-proteus/proteus-logger.git#master"
 	},
 	"devDependencies": {
-		"mocha": "*"
+		"mocha": "*",
+		"should": "*"
 	}
 }
