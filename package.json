@@ -9,12 +9,9 @@
 		"type": "git",
 		"url": "https://github.com/ameba-proteus/proteus-cluster.git"
 	},
-	"publishConfig": {
-		"registry": "http://npm.pecolodge.com"
-	},
 	"homepage": "https://github.com/ameba-proteus/proteus-cluster",
 	"dependencies": {
-		"proteus-logger": "git://github.com/ameba-proteus/proteus-logger.git#master"
+		"proteus-logger": "git+ssh://git@github.com:ameba-proteus/proteus-logger.git#develop"
 	},
 	"devDependencies": {
 		"mocha": "*",
