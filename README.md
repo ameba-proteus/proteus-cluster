@@ -5,23 +5,27 @@ Clusterは、Node.jsのclusterモジュールの利便性を高めたモジュ�
 
 - worker異常終了時の自動再起動
 - workerのgraceful restart / shudown
-- loggerと連携したmasterプロセスのログ一元管理
+- proteus-loggerと連携したmasterプロセスのログ一元管理
+- workerからmasterへのメッセージ受け渡し機構
 
 # Usage
 
 ## settings（[]はデフォルト値）
 
 - worker
-- 起動するworker数 [サーバのCPU数]
+ - 起動するworker数 [サーバのCPU数]
 - pid
-- プロセスID  [/tmp/proteus.pid]
-- exec - workerとして起動したい処理を含むJSファイル [clusterの起動元のファイル]
+ - プロセスID  [/tmp/proteus-cluster.pid]
+- exec
+ - workerとして起動したい処理を含むJSファイル [clusterの起動元のファイル]
 - disconnectTimeout
-- workerを落とす際のタイムアウト時間 [30000]
+ - workerを落とす際のタイムアウト時間 [120000]
+- maxForkCount
+ - workerをforkする回数の上限値(永久に再起動を繰り返さないための対応) [100]
 
 ## use cluster process
 
-clusterを起動 (cluster.js)
+masterを起動 (cluster.js)
 
 ```js
 var cluster = require('proteus').cluster;
@@ -36,7 +40,7 @@ cluster(conf);
 workerの実装 (worker.js)
 
 ```js
-// 通常の実装
+// 通常通りの実装を行う
 var express = require('express');
 var app = express();
 var port = 8080;
@@ -48,7 +52,7 @@ app.configure(function() {
 app.listen(port);
 ```
 
-#### use graceful restart
+## use graceful restart
 
 シェルから実行
 
@@ -65,7 +69,7 @@ API実行
 cluster.restart();
 ```
 
-#### use graceful shutdown
+## use graceful shutdown
 
 シェルから実行
 
@@ -80,6 +84,22 @@ API実行
 
 ```js
 cluster.shutdown();
+```
+
+## use message listener
+
+masterの実装 (cluster.js)
+
+```js
+cluster.addMessageListener('fromWorker', function(msg) {
+	logger.info(msg.msg);
+});
+```
+
+workerの実装 (worker.js)
+
+```js
+process.send({cmd: 'fromWorker', msg: 'sending message to master'});
 ```
 
 # License
