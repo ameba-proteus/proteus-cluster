@@ -5,7 +5,9 @@ function sendMessage() {
 		if (eTime - sTime > 10) {
 			try {
 				process.send({cmd: 'fromWorker', msg: 'message from worker ' + process.pid});
-			} catch(e){}
+			} catch(e){
+				process.exit(0);
+			}
 			break;
 		}
 	}
