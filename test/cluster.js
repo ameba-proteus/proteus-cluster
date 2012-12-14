@@ -1,5 +1,15 @@
 var cluster = require('..');
 
+//var proteusLogger = require('proteus-logger');
+//proteusLogger.configure({
+//	'cluster-test': {
+//		console: {
+//			colorize: 'true',
+//			timestamp: 'true'
+//		}
+//	}
+//});
+
 var conf = {};
 conf.worker = 2;
 conf.pid = '/tmp/proteus-cluster.pid';
