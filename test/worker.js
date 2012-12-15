@@ -1,5 +1,13 @@
 //var proteusLogger = require('proteus-logger');
-//var logger = proteusLogger.logger('cluster-test');
+//proteusLogger.configure({
+//        'cluster-test': {
+//                console: {
+//                        colorize: 'true',
+//                        timestamp: 'true'
+//                }
+//        }
+//});
+//var logger = proteusLogger.get('cluster-test');
 
 function sendMessage() {
 	var sTime = new Date().getTime();
@@ -9,6 +17,7 @@ function sendMessage() {
 			try {
 				// logs will be sent to the master process
 //				logger.debug('message sent from worker');
+
 				process.send({cmd: 'fromWorker', msg: 'message from worker ' + process.pid});
 			} catch(e){
 				process.exit(0);
