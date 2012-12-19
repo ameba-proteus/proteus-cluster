@@ -27,3 +27,5 @@ cluster.addMessageListener('fromWorker', function(msg) {
 
 cluster(conf);
 
+cluster.sendMessage('message sent from master');
+

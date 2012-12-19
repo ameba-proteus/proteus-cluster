@@ -28,3 +28,7 @@ function sendMessage() {
 	process.nextTick(sendMessage);
 }
 sendMessage();
+
+process.on('message', function(msg) {
+//	logger.debug(msg);
+});
