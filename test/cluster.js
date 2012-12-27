@@ -16,6 +16,7 @@ conf.pid = '/tmp/proteus-cluster.pid';
 conf.exec = __dirname + '/worker.js';
 conf.disconnectTimeout = 120000;
 conf.maxForkCount = 100;
+conf.args = ['--test']
 
 var cnt = 0;
 cluster.addMessageListener('fromWorker', function(msg) {

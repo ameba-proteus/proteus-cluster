@@ -9,6 +9,8 @@
 //});
 //var logger = proteusLogger.get('cluster-test');
 
+//logger.debug(process.argv);
+
 function sendMessage() {
 	var sTime = new Date().getTime();
 	while(true) {
