@@ -1,36 +1,29 @@
 //var proteusLogger = require('proteus-logger');
 //proteusLogger.configure({
-//        'cluster-test': {
-//                console: {
-//                        colorize: 'true',
-//                        timestamp: 'true'
-//                }
-//        }
+//	'cluster-test': {
+//		console: {
+//			colorize: 'true',
+//			timestamp: 'true'
+//		}
+//	}
 //});
 //var logger = proteusLogger.get('cluster-test');
 
 //logger.debug(process.argv);
 
 function sendMessage() {
-	var sTime = new Date().getTime();
-	while(true) {
-		var eTime = new Date().getTime();
-		if (eTime - sTime > 10) {
-			try {
-				// logs will be sent to the master process
-//				logger.debug('message sent from worker');
+	try {
+		// logs will be sent to the master process
+//		logger.debug('[worker] going to send message from worker');
 
-				process.send({cmd: 'fromWorker', msg: 'message from worker ' + process.pid});
-			} catch(e){
-				process.exit(0);
-			}
-			break;
-		}
+		process.send({cmd: 'fromWorker', msg: 'message from worker ' + process.pid});
+		process.exit(0);
+	} catch(e){
+		process.exit(0);
 	}
-	process.nextTick(sendMessage);
 }
-sendMessage();
 
 process.on('message', function(msg) {
-//	logger.debug(msg);
+//	logger.debug('[worker] message received : ' + JSON.stringify(msg));
+	sendMessage();
 });
