@@ -11,8 +11,7 @@
 	},
 	"homepage": "https://github.com/ameba-proteus/proteus-cluster",
 	"dependencies": {
-		"proteus-logger": "git+ssh://git@github.com:ameba-proteus/proteus-logger.git#develop",
-		"express": "*"
+		"proteus-logger": "git+ssh://git@github.com:ameba-proteus/proteus-logger.git#develop"
 	},
 	"devDependencies": {
 		"mocha": "*",

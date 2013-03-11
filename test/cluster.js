@@ -18,15 +18,15 @@ conf.pid = '/tmp/proteus-cluster.pid';
 conf.exec = __dirname + '/worker.js';
 conf.disconnectTimeout = 120000;
 conf.maxForkCount = 100;
-conf.args = ['--test']
-conf.enableHttpAPI = true;
-conf.httpAPIListenAddr = 'localhost';
-conf.httpAPIPort = 8081;
+conf.args = ['--test'];
+conf.api = {
+	listen: '0.0.0.0',
+	port: 8881
+};
 
 var cnt = 0;
-cluster.addMessageListener('fromWorker', function(obj) {
-//	logger.debug('[master] message received : ' + JSON.stringify(obj.msg));
-
+cluster.addMessageListener('fromWorker', function() {
+	//	logger.debug('[master] message received : ' + JSON.stringify(obj.msg));
 	cnt++;
 	if (cnt >= 4) {
 		cluster.shutdown();
@@ -43,7 +43,7 @@ process.nextTick(function(){
 	var data = JSON.stringify({'msg': 'message from master using HTTP API'});
 	var post = http.request({
 		host: 'localhost',
-		port: 8081,
+		port: 8881,
 		path: '/send',
 		method: 'POST',
 		headers: {
@@ -51,7 +51,7 @@ process.nextTick(function(){
 			'Content-Length': data.length
 		}
 	}, function(res) {
-
+		console.log("RESPONSE CLUSTER",res.statusCode);
 	});
 	post.write(data);
 	post.end();
