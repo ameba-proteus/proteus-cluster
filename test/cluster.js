@@ -1,16 +1,30 @@
 var cluster = require('..');
 var http = require('http');
 
-//var proteusLogger = require('proteus-logger');
-//proteusLogger.configure({
-//	'cluster-test': {
-//		console: {
-//			colorize: 'true',
-//			timestamp: 'true'
-//		}
+var loggers = require('proteus-logger');
+loggers.configure({
+	appenders: {
+		console: {
+			type: 'console'
+		},
+		file: {
+			type: 'rotate_file',
+			layout: {
+				pattern: "%yyyy-%MM-%dd%T%HH:%mm:%ss %level %logger %msg %args (%line)%nstack%n"
+			}
+		}
+	},
+	loggers: {
+		"default": {
+			appenders: ["file","console"],
+			level: "debug"
+		}
+	}
+});
 //	}
 //});
-//var logger = proteusLogger.get('cluster-test');
+var logger = loggers.get('cluster-test');
+logger.info("TEST");
 
 var conf = {};
 conf.worker = 2;

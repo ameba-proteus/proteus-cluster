@@ -1,15 +1,26 @@
-//var proteusLogger = require('proteus-logger');
-//proteusLogger.configure({
-//	'cluster-test': {
-//		console: {
-//			colorize: 'true',
-//			timestamp: 'true'
-//		}
-//	}
-//});
-//var logger = proteusLogger.get('cluster-test');
+var loggers = require('proteus-logger');
+loggers.configure({
+	appenders: {
+		console: {
+			type: 'console'
+		},
+		file: {
+			type: 'rotate_file',
+			layout: {
+				pattern: "%yyyy-%MM-%dd%T%HH:%mm:%ss %level %logger %msg %args (%line)%nstack%n"
+			}
+		}
+	},
+	loggers: {
+		"default": {
+			appenders: ["file","console"],
+			level: "debug"
+		}
+	}
+});
+var logger = loggers.get('cluster-test');
 
-//logger.debug(process.argv);
+logger.debug(process.argv);
 
 function sendMessage() {
 	try {
