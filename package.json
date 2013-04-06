@@ -11,7 +11,7 @@
 	},
 	"homepage": "https://github.com/ameba-proteus/proteus-cluster",
 	"dependencies": {
-		"proteus-logger": "1.1.4"
+		"proteus-logger": "1.1.5"
 	},
 	"devDependencies": {
 		"mocha": "*",
