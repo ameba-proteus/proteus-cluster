@@ -1,6 +1,6 @@
 {
 	"name": "proteus-cluster",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"scripts": {
 		"start": "node app",
 		"test": "find test -type f -name 'test*.js' -print | xargs ./node_modules/.bin/mocha --reporter tap"
@@ -11,7 +11,7 @@
 	},
 	"homepage": "https://github.com/ameba-proteus/proteus-cluster",
 	"dependencies": {
-		"proteus-logger": "git+ssh://git@github.com:ameba-proteus/proteus-logger.git#1.1.1"
+		"proteus-logger": "1.1.4"
 	},
 	"devDependencies": {
 		"mocha": "*",
