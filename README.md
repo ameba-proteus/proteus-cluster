@@ -33,15 +33,20 @@ The following are the features.
 - worker
  - number of workers to run [number of CPUs]
 - pid
- - process id file [/tmp/proteus-cluster.pid]
+ - process id file
 - exec
  - startup JS file for workers [__filename]
+- args
+ - arguments to be sent when calling startup JS file (array)
 - disconnectTimeout
- - timeout milliseconds for worker to wait for graceful shutdown [120000]
+ - timeout milliseconds for worker to wait for graceful shutdown [10000]
 - maxForkCount
  - max fork count for worker (in case of endless restart) [100]
-- args
- - arguments for worker (array)
+- api
+ - listen
+  - hostname to accept connections for web-based API
+ - port
+  - port to accept connections for web-based API [8111]
 
 
 ## start cluster
@@ -51,10 +56,16 @@ master implementation (cluster.js)
 ```js
 var cluster = require('proteus').cluster;
 var conf = {};
-conf.worker = 4;
-conf.pid = '/tmp/proteus.pid';
-conf.exec = 'worker.js';
+conf.worker            = 4;
+conf.pid               = '/tmp/proteus.pid';
+conf.exec              = 'worker.js';
+conf.args              = ['-c', 'config.json'];
 conf.disconnectTimeout = 5000;
+conf.maxForkCount      = 30;
+conf.api = {
+  listen : '0.0.0.0',
+  port   : 8111
+});
 cluster(conf);
 ```
 
@@ -86,10 +97,16 @@ $ ps ax | grep node | grep -v 'grep'
 $ kill -SIGUSR2 2051
 ```
 
-run by API
+run from program
 
 ```js
 cluster.restart();
+```
+
+run by calling API
+
+```shell
+curl http://localhost:8111/restart
 ```
 
 
@@ -106,10 +123,18 @@ $ ps ax | grep node | grep -v 'grep'
 $ kill -SIGINT 2051
 ```
 
-run from API
+run from program
 
 ```js
 cluster.shutdown();
+```
+
+## force shutdown
+
+run from program
+
+```js
+cluster.forceShutdown();
 ```
 
 
@@ -175,16 +200,20 @@ Proteus Clusterは、Node.jsのclusterモジュールの利便性を高めたモ
 - worker
  - 起動するworker数 [サーバのCPU数]
 - pid
- - プロセスID  [/tmp/proteus-cluster.pid]
+ - プロセスID
 - exec
  - workerの起動JSファイル [__filename]
+- args
+ - workerの起動JSファイル呼び出し時に渡す引数
 - disconnectTimeout
- - workerを安全に停止するためのタイムアウト時間。時間を過ぎると強制停止される。 [120000]
+ - workerを安全に停止するためのタイムアウト時間。時間を過ぎると強制停止される。 [10000]
 - maxForkCount
  - workerをforkする回数の上限値（永久に再起動を繰り返さないための対応） [100]
-- args
- - workerに渡す引数（配列）
-
+- api
+ - listen
+  - WebベースのAPIを起動する際のホスト名
+ - port
+  - WebベースのAPIを起動する際のポート番号 [8111]
 
 ## cluster起動
 
@@ -193,10 +222,16 @@ masterの実装 (cluster.js)
 ```js
 var cluster = require('proteus').cluster;
 var conf = {};
-conf.worker = 4;
-conf.pid = '/tmp/proteus.pid';
-conf.exec = 'worker.js';
+conf.worker            = 4;
+conf.pid               = '/tmp/proteus.pid';
+conf.exec              = 'worker.js';
+conf.args              = ['-c', 'config.json'];
 conf.disconnectTimeout = 5000;
+conf.maxForkCount      = 30;
+conf.api = {
+  listen : '0.0.0.0',
+  port   : 8111
+});
 cluster(conf);
 ```
 
@@ -229,12 +264,17 @@ $ ps ax | grep node | grep -v 'grep'
 $ kill -SIGUSR2 2051
 ```
 
-API実行
+プログラムから実行
 
 ```js
 cluster.restart();
 ```
 
+APIを呼び出して実行
+
+```shell
+curl http://localhost:8111/restart
+```
 
 ## graceful shutdown
 
@@ -249,10 +289,18 @@ $ ps ax | grep node | grep -v 'grep'
 $ kill -SIGINT 2051
 ```
 
-API実行
+プログラムから実行
 
 ```js
 cluster.shutdown();
+```
+
+## force shutdown
+
+プログラムから実行
+
+```js
+cluster.forceShutdown();
 ```
 
 
