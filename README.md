@@ -54,7 +54,7 @@ The following are the features.
 master implementation (cluster.js)
 
 ```js
-var cluster = require('proteus').cluster;
+var cluster = require('proteus-cluster');
 var conf = {};
 conf.worker            = 4;
 conf.pid               = '/tmp/proteus.pid';
@@ -65,7 +65,7 @@ conf.maxForkCount      = 30;
 conf.api = {
   listen : '0.0.0.0',
   port   : 8111
-});
+};
 cluster(conf);
 ```
 
@@ -75,10 +75,8 @@ worker implementation (worker.js)
 var express = require('express');
 var app = express();
 var port = 8080;
-app.configure(function() {
-	app.get('/', function(req, res) {
-		res.send('running worker '+process.pid);
-	});
+app.get('/', function(req, res) {
+  res.send('running worker '+process.pid);
 });
 app.listen(port);
 ```
@@ -220,7 +218,7 @@ Proteus Clusterは、Node.jsのclusterモジュールの利便性を高めたモ
 masterの実装 (cluster.js)
 
 ```js
-var cluster = require('proteus').cluster;
+var cluster = require('proteus-cluster');
 var conf = {};
 conf.worker            = 4;
 conf.pid               = '/tmp/proteus.pid';
@@ -229,23 +227,20 @@ conf.args              = ['-c', 'config.json'];
 conf.disconnectTimeout = 5000;
 conf.maxForkCount      = 30;
 conf.api = {
-  listen : '0.0.0.0',
-  port   : 8111
-});
+    listen : '0.0.0.0',
+    port   : 8111
+};
 cluster(conf);
 ```
 
 workerの実装 (worker.js)
 
 ```js
-// 通常通りの実装を行う
 var express = require('express');
 var app = express();
 var port = 8080;
-app.configure(function() {
-	app.get('/', function(req, res) {
-		res.send('running worker '+process.pid);
-	});
+app.get('/', function(req, res) {
+  res.send('running worker '+process.pid);
 });
 app.listen(port);
 ```
