@@ -1,20 +1,26 @@
 {
-	"name": "proteus-cluster",
-	"version": "1.0.6",
-	"scripts": {
+  "name": "proteus-cluster",
+  "version": "1.0.6",
+  "scripts": {
 		"start": "node app",
-		"test": "find test -type f -name 'test*.js' -print | xargs ./node_modules/.bin/mocha --reporter tap"
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/ameba-proteus/proteus-cluster.git"
-	},
-	"homepage": "https://github.com/ameba-proteus/proteus-cluster",
-	"dependencies": {
-		"proteus-logger": "<2.0.0"
-	},
+    "test": "XUNIT_FILE=test-report.xml node_modules/.bin/mocha --reporter xunit-file",
+    "cobertura": "node_modules/.bin/istanbul cover --report cobertura node_modules/mocha/bin/_mocha -- --reporter dot",
+    "cover": "node_modules/.bin/istanbul cover --print none --report html node_modules/mocha/bin/_mocha && open coverage/index.html",
+    "checkstyle": "jshint --checkstyle-reporter . > checkstyle-jshint.xml || exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ameba-proteus/proteus-cluster.git"
+  },
+  "homepage": "https://github.com/ameba-proteus/proteus-cluster",
+  "dependencies": {
+    "proteus-logger": "<2.0.0"
+  },
 	"devDependencies": {
-		"mocha": "*",
-		"should": "*"
-	}
+    "expect.js": "^0.3.0",
+    "istanbul": "^0.1.45",
+    "mocha": "*",
+    "should": "*",
+    "xunit-file": "^0.0.5"
+  }
 }
