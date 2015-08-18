@@ -1,8 +1,8 @@
 {
   "name": "proteus-cluster",
-  "version": "1.0.6",
+  "version": "1.1.0",
   "scripts": {
-		"start": "node app",
+    "start": "node app",
     "test": "XUNIT_FILE=test-report.xml node_modules/.bin/mocha --reporter xunit-file",
     "cobertura": "node_modules/.bin/istanbul cover --report cobertura node_modules/mocha/bin/_mocha -- --reporter dot",
     "cover": "node_modules/.bin/istanbul cover --print none --report html node_modules/mocha/bin/_mocha && open coverage/index.html",
@@ -16,7 +16,7 @@
   "dependencies": {
     "proteus-logger": "<2.0.0"
   },
-	"devDependencies": {
+  "devDependencies": {
     "expect.js": "^0.3.0",
     "istanbul": "^0.1.45",
     "mocha": "*",
