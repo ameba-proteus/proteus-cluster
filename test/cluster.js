@@ -90,5 +90,98 @@ describe('cluster', function() {
         done();
       }, 2000);
     });
+
+    describe('send_sync', function() {
+      it('send sync message from master using HTTP API', function(done) {
+        logger.debug('[master] going to send sync message from master using HTTP API');
+        var data = JSON.stringify({ cmd: 'sync_ping', msg: 'sync message from master using HTTP API' });
+        var post = http.request({
+          host: 'localhost',
+          port: 8881,
+          path: '/sync_send',
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Content-Length': data.length
+          }
+        }, function(res) {
+          expect(200).to.eql(res.statusCode);
+
+          res.setEncoding('utf-8');
+          res.on('data', function(chunk) {
+            expect('OK').to.eql(chunk);
+          });
+          res.on('end', function() {
+            done();
+          });
+        });
+        post.write(data);
+        post.end();
+      });
+
+      it('should be worker timeout', function(done) {
+        logger.debug('[master] going to send sync message from master using HTTP API');
+        var data = JSON.stringify({ cmd: 'sync_ping', msg: 'sync message from master using HTTP API', timeout: 10 });
+        var post = http.request({
+          host: 'localhost',
+          port: 8881,
+          path: '/sync_send',
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Content-Length': data.length
+          }
+        }, function(res) {
+          expect(500).to.eql(res.statusCode);
+
+          res.setEncoding('utf-8');
+          res.on('data', function(chunk) {
+            expect('worker timeout.').to.eql(chunk);
+          });
+          res.on('end', function() {
+            done();
+          });
+        });
+        post.write(data);
+        post.end();
+      });
+
+      it('should be server too busy', function(done) {
+        logger.debug('[master] going to send sync message from master using HTTP API');
+        var data = JSON.stringify({ cmd: 'sync_ping', msg: 'sync message from master using HTTP API' });
+        var options = {
+          host: 'localhost',
+          port: 8881,
+          path: '/sync_send',
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Content-Length': data.length
+          }
+        };
+
+        var post1 = http.request(options, function(res) {
+          expect(200).to.eql(res.statusCode);
+        });
+        post1.write(data);
+        post1.end();
+
+        setTimeout(function() {
+          var post2 = http.request(options, function(res) {
+            expect(500).to.eql(res.statusCode);
+
+            res.setEncoding('utf-8');
+            res.on('data', function(chunk) {
+              expect('server too busy.').to.eql(chunk);
+            });
+            res.on('end', function() {
+              done();
+            });
+          });
+          post2.write(data);
+          post2.end();
+        }, 10);
+      });
+    });
   });
 });

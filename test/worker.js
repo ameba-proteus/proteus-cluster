@@ -34,9 +34,24 @@ function sendPong() {
   }
 }
 
+function sendSyncPing() {
+  try {
+    logger.debug('[worker] going to send message from worker');
+
+    setTimeout(function() {
+      process.send({cmd: 'sync_ping', msg: 'message from worker ' + process.pid});
+      process.exit(0);
+    }, 100);
+  } catch(e){
+    process.exit(0);
+  }
+}
+
 process.on('message', function(obj) {
   logger.debug('[worker] message received : ' + JSON.stringify(obj));
   if (obj.cmd === 'ping') {
     sendPong();
+  } else if (obj.cmd === 'sync_ping') {
+    sendSyncPing();
   }
 });
