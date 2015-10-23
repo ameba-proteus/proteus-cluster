@@ -1,6 +1,6 @@
 {
   "name": "proteus-cluster",
-  "version": "1.1.0",
+  "version": "1.1.2",
   "scripts": {
     "start": "node app",
     "test": "XUNIT_FILE=test-report.xml node_modules/.bin/mocha --reporter xunit-file",
