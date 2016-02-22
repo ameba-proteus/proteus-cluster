@@ -109,7 +109,9 @@ describe('cluster', function() {
 
           res.setEncoding('utf-8');
           res.on('data', function(chunk) {
-            expect('OK').to.eql(chunk);
+            var result = JSON.parse(chunk);
+            expect(result).to.be.an('array');
+            expect(result.length).to.eql(conf.worker);
           });
           res.on('end', function() {
             done();
